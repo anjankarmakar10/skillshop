@@ -11,28 +11,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { z } from "zod";
+
 const JobForm = () => {
   return (
     <form>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ">
         <div className=" col-span-full md:col-span-1 flex flex-col gap-2">
-          <Label htmlFor="email ">Title</Label>
-          <Input type="text" id="text" />
+          <Label>Title</Label>
+          <Input type="text" />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="email">Company Name</Label>
-          <Input type="text" id="email" />
+          <Label>Company Name</Label>
+          <Input type="text" />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="email">Location</Label>
-          <Input type="text" id="email" />
+          <Label>Location</Label>
+          <Input type="text" />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="email">Application URL</Label>
-          <Input type="text" id="email" />
+          <Label>Application URL</Label>
+          <Input type="text" />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="email">Type</Label>
+          <Label>Type</Label>
           <Select>
             <SelectTrigger>
               <SelectValue placeholder="Full Time" />
@@ -47,7 +49,7 @@ const JobForm = () => {
           </Select>
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="email">Experience Level</Label>
+          <Label>Experience Level</Label>
           <Select>
             <SelectTrigger>
               <SelectValue placeholder="Mid-Lavel" />
@@ -62,19 +64,19 @@ const JobForm = () => {
           </Select>
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="email">Salary</Label>
-          <Input type="number" id="email" />
+          <Label>Salary</Label>
+          <Input type="number" />
           <p className="text-sm text-muted-foreground">In USD</p>
         </div>
 
         <div className="md:col-span-2 col-span-full flex flex-col gap-2">
-          <Label htmlFor="message-2">Short Description</Label>
-          <Textarea id="message-2" rows={5} />
+          <Label>Short Description</Label>
+          <Textarea rows={5} />
           <p className="text-sm text-muted-foreground">Max 200 characters</p>
         </div>
         <div className="col-span-full flex flex-col gap-2">
-          <Label htmlFor="message-2">Full Description</Label>
-          <Textarea rows={8} id="message-2" />
+          <Label>Full Description</Label>
+          <Textarea rows={8} />
           <p className="text-sm text-muted-foreground">
             Supports full Markdown
           </p>
