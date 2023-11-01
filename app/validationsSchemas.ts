@@ -19,7 +19,7 @@ const ExprienceArray = [
   Experience.SENIOR,
 ] as const;
 
-export const jobListingFormSchema = z.object({
+export const jobListingSchema = z.object({
   title: z.string().min(1, "Title is required."),
   companyName: z.string().min(1, "Company name is required."),
   location: z.string().min(1, "Location is required."),

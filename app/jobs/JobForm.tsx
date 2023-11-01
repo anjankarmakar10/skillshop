@@ -14,12 +14,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
-import { jobListingFormSchema } from "../validationsSchemas";
+import { jobListingSchema } from "../validationsSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type } from "os";
 import ErrorMessage from "@/components/ErrorMessage";
 
-type JobFormData = z.infer<typeof jobListingFormSchema>;
+type JobFormData = z.infer<typeof jobListingSchema>;
 
 const JobForm = () => {
   const {
@@ -27,7 +27,7 @@ const JobForm = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<JobFormData>({ resolver: zodResolver(jobListingFormSchema) });
+  } = useForm<JobFormData>({ resolver: zodResolver(jobListingSchema) });
 
   const onSubmit = (data) => {
     console.log(data);
@@ -133,7 +133,12 @@ const JobForm = () => {
         </div>
       </div>
       <div className="flex gap-4 my-4 justify-end">
-        <Button type="submit">Submit</Button>
+        <Button className="font-medium" type="submit">
+          Create Job
+        </Button>
+        <Button className="font-medium" type="button">
+          Preview
+        </Button>
       </div>
     </form>
   );
