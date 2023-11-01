@@ -24,10 +24,10 @@ export const jobListingFormSchema = z.object({
   companyName: z.string().min(1, "Company name is required."),
   location: z.string().min(1, "Location is required."),
   applyUrl: z.string().url().optional(),
-  salary: z.number().int().positive().min(1, "Salary is required."),
+  salary: z.number().int().positive(),
   shortDescription: z
     .string()
-    .max(200)
-    .min(1, "Short description is required."),
+    .min(1, "Short description is required.")
+    .max(200),
   description: z.string().optional(),
 });

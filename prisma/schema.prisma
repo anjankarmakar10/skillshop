@@ -15,10 +15,10 @@ model JobPost {
   title            String
   companyName      String
   location         String
-  applyUrl   String
+  applyUrl         String
   salary           Int
   shortDescription String
-  description  String
+  description      String
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
   type             Type       @default(FULL_TIME)
@@ -36,5 +36,3 @@ enum Experience {
   MID_LEVEL
   SENIOR
 }
-
-
