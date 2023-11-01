@@ -23,6 +23,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { jobListingSchema } from "../validationsSchemas";
 import JobCard from "@/components/JobCard";
+import { JobListingFullDialog } from "./JobListingFullDialog";
 
 export type JobFormData = z.infer<typeof jobListingSchema>;
 
@@ -197,7 +198,18 @@ const JobForm = () => {
           </Button>
         </div>
       </form>
-      <div>{preview && <JobCard job={jobListingValues} />}</div>
+      <div className="max-w-md">
+        {preview && (
+          <JobCard
+            job={jobListingValues}
+            footerBtns={
+              <>
+                <JobListingFullDialog {...jobListingValues} />
+              </>
+            }
+          />
+        )}
+      </div>
     </>
   );
 };

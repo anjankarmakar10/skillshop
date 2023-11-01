@@ -2,6 +2,7 @@ import JobCard from "@/components/JobCard";
 import { Button } from "@/components/ui/button";
 import prisma from "@/prisma/client";
 import Link from "next/link";
+import { JobListingFullDialog } from "./JobListingFullDialog";
 
 const JobsListPage = async () => {
   const jobs: Job[] = await prisma.jobPost.findMany({});
@@ -19,7 +20,15 @@ const JobsListPage = async () => {
       </header>
       <div className="my-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(400px,100%),1fr))]">
         {jobs.map((job) => (
-          <JobCard key={job.id} job={job} />
+          <JobCard
+            key={job.id}
+            job={job}
+            footerBtns={
+              <>
+                <JobListingFullDialog {...job} />
+              </>
+            }
+          />
         ))}
       </div>
     </section>

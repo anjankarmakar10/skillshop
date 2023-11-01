@@ -70,7 +70,6 @@ const JobCard = ({
       <CardContent className="flex-grow">{shortDescription}</CardContent>
       <CardFooter className="flex gap-2 items-stretch justify-end">
         {footerBtns}
-        <Button variant="outline">View Job</Button>
       </CardFooter>
     </Card>
   );
