@@ -1,7 +1,11 @@
+import JobCard from "@/components/JobCard";
 import { Button } from "@/components/ui/button";
+import prisma from "@/prisma/client";
 import Link from "next/link";
 
-const JobsListPage = () => {
+const JobsListPage = async () => {
+  const jobs: Job[] = await prisma.jobPost.findMany({});
+
   return (
     <section>
       <header className="flex items-center justify-between">
@@ -13,6 +17,11 @@ const JobsListPage = () => {
           </Button>
         </Link>
       </header>
+      <div className="my-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(400px,100%),1fr))]">
+        {jobs.map((job) => (
+          <JobCard key={job.id} {...job} />
+        ))}
+      </div>
     </section>
   );
 };
