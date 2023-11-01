@@ -1,4 +1,7 @@
 "use client";
+import ErrorMessage from "@/components/ErrorMessage";
+import Spinner from "@/components/Spinner";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,19 +10,32 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { jobListingSchema } from "../validationsSchemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { type } from "os";
-import ErrorMessage from "@/components/ErrorMessage";
 
-type JobFormData = z.infer<typeof jobListingSchema>;
+export type JobFormData = z.infer<typeof jobListingSchema>;
+
+const DEFAULT_VALUES: JobFormData = {
+  applyUrl: "",
+  companyName: "",
+  description: "",
+  experience: "MID_LEVEL",
+  location: "",
+  salary: NaN,
+  shortDescription: "",
+  title: "",
+  type: "FULL_TIME",
+};
 
 const JobForm = () => {
   const {
@@ -27,16 +43,37 @@ const JobForm = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<JobFormData>({ resolver: zodResolver(jobListingSchema) });
+  } = useForm<JobFormData>({
+    resolver: zodResolver(jobListingSchema),
+    defaultValues: DEFAULT_VALUES,
+  });
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const [error, setError] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
+  const router = useRouter();
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setSubmitting(true);
+      await axios.post("/api/jobs", data);
+      router.push("/jobs");
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      setSubmitting(false);
+      setError("An unexpected error occurred.");
+    }
+  });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onSubmit}>
+      {error && (
+        <Alert className="mb-4 bg-white" variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>{error}</AlertTitle>
+        </Alert>
+      )}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ">
-        <div className=" col-span-full md:col-span-1 flex flex-col gap-2">
+        <div className="col-span-full md:col-span-1 flex flex-col gap-2">
           <Label>Title</Label>
           <Input {...register("title")} type="text" />
           <ErrorMessage>{errors.title?.message}</ErrorMessage>
@@ -53,7 +90,7 @@ const JobForm = () => {
         </div>
         <div className="flex flex-col gap-2">
           <Label>Application URL</Label>
-          <Input {...register("applyUrl")} type="text" />
+          <Input {...register("applyUrl")} type="url" />
           <ErrorMessage>{errors.applyUrl?.message}</ErrorMessage>
         </div>
         <div className="flex flex-col gap-2">
@@ -98,9 +135,9 @@ const JobForm = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="Junior">Junior</SelectItem>
+                    <SelectItem value="JUNIOR">Junior</SelectItem>
                     <SelectItem value="MID_LEVEL">Mid-Level</SelectItem>
-                    <SelectItem value="Senior">Senior</SelectItem>
+                    <SelectItem value="SENIOR">Senior</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -132,10 +169,17 @@ const JobForm = () => {
           <ErrorMessage>{errors.description?.message}</ErrorMessage>
         </div>
       </div>
+
       <div className="flex gap-4 my-4 justify-end">
-        <Button className="font-medium" type="submit">
-          Create Job
+        <Button
+          disabled={isSubmitting}
+          className="font-medium flex gap-1"
+          type="submit"
+        >
+          {isSubmitting && <Spinner />}
+          Submit Job
         </Button>
+
         <Button className="font-medium" type="button">
           Preview
         </Button>

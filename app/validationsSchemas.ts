@@ -30,4 +30,6 @@ export const jobListingSchema = z.object({
     .min(1, "Short description is required.")
     .max(200),
   description: z.string().optional(),
+  experience: z.string().optional(),
+  type: z.string().optional(),
 });
