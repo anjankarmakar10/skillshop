@@ -1,14 +1,14 @@
 type Job = {
-  id: string;
+  id?: string;
   title: string;
   companyName: string;
   location: string;
-  applyUrl: string;
+  applyUrl?: string | undefined;
   salary: number;
   shortDescription: string;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-  type: string;
-  experience: string;
+  description?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  type?: string | undefined;
+  experience?: string | undefined;
 };

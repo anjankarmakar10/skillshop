@@ -19,7 +19,7 @@ const JobsListPage = async () => {
       </header>
       <div className="my-4 grid gap-4 grid-cols-[repeat(auto-fill,minmax(min(400px,100%),1fr))]">
         {jobs.map((job) => (
-          <JobCard key={job.id} {...job} />
+          <JobCard key={job.id} job={job} />
         ))}
       </div>
     </section>

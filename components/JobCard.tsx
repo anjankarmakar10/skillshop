@@ -13,19 +13,22 @@ import { Banknote, CalendarDays, GraduationCap } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { ReactNode } from "react";
 
-interface Props extends Job {
+interface Props {
   footerBtns?: ReactNode;
   className?: string;
+  job: Job;
 }
 
 const JobCard = ({
-  title,
-  companyName,
-  location,
-  shortDescription,
-  type,
-  salary,
-  experience,
+  job: {
+    title,
+    companyName,
+    location,
+    shortDescription,
+    type,
+    salary,
+    experience,
+  },
   footerBtns,
   className,
 }: Props) => {
@@ -53,20 +56,21 @@ const JobCard = ({
             className="flex gap-1 whitespace-nowrap font-normal items-center "
           >
             <CalendarDays className="w-4 h-4 mb-[1px] " />{" "}
-            {type.replace("_", " ")}
+            {type?.replace("_", " ")}
           </Badge>
           <Badge
             variant="secondary"
             className="flex gap-1 whitespace-nowrap font-normal items-center "
           >
             <GraduationCap className="w-4 h-4 mb-[1px] " />{" "}
-            {experience.replace("_", " ")}
+            {experience?.replace("_", " ")}
           </Badge>
         </div>
       </CardHeader>
       <CardContent className="flex-grow">{shortDescription}</CardContent>
       <CardFooter className="flex gap-2 items-stretch justify-end">
-        {footerBtns} <Button>View Job</Button>
+        {footerBtns}
+        <Button variant="outline">View Job</Button>
       </CardFooter>
     </Card>
   );
