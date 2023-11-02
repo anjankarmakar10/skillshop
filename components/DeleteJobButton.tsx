@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "./ui/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
-import prisma from "@/prisma/client";
 
 const DeleteJobButton = ({ job }: { job: Job }) => {
   const router = useRouter();
