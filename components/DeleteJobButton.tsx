@@ -24,6 +24,18 @@ const DeleteJobButton = ({ job }: { job: Job }) => {
 
   if (!job) return null;
 
+  const handleUndo = async () => {
+    try {
+      await axios.post("/api/jobs", job);
+      router.refresh();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "DELETE: Uh oh! Something went wrong.",
+      });
+    }
+  };
+
   const handleDelete = async () => {
     try {
       setDeleting(true);
@@ -32,13 +44,17 @@ const DeleteJobButton = ({ job }: { job: Job }) => {
 
       toast({
         title: "Sucessfully Deleted",
-        action: <ToastAction altText="Goto schedule to undo">Undo</ToastAction>,
+        action: (
+          <ToastAction onClick={handleUndo} altText="Goto schedule to undo">
+            Undo
+          </ToastAction>
+        ),
       });
     } catch (error) {
       setDeleting(false);
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        title: "DELETE: Uh oh! Something went wrong.",
       });
       console.log(error);
     }
@@ -55,8 +71,7 @@ const DeleteJobButton = ({ job }: { job: Job }) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your job
-            from our servers.
+            This action will delete your job.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
