@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "./auth/AuthProvider";
+import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,17 +23,19 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="min-h-screen">
-              <Navbar />
-              <div className="max-w-[1340px] mx-auto p-4">{children}</div>
-            </div>
-          </ThemeProvider>
+          <QueryClientProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <div className="min-h-screen">
+                <Navbar />
+                <div className="max-w-[1340px] mx-auto p-4">{children}</div>
+              </div>
+            </ThemeProvider>
+          </QueryClientProvider>
         </AuthProvider>
         <Toaster />
       </body>

@@ -23,8 +23,8 @@ model JobPost {
   updatedAt        DateTime   @updatedAt
   type             Type       @default(FULL_TIME)
   experience       Experience @default(MID_LEVEL)
-  userId           String?    @db.ObjectId
-  createdBy        User?      @relation(fields: [userId], references: [id])
+  userEmail        String?    
+ 
 }
 
 enum Type {
@@ -73,7 +73,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  jobPosts      JobPost[]
+
 }
 
 model VerificationToken {

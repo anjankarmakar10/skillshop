@@ -9,10 +9,20 @@ export const POST = async (request: NextRequest) => {
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
+  console.log(body);
 
   const validation = jobListingSchema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
+  }
+
+  if (body.userEmail) {
+    const user = await prisma.user.findUnique({
+      where: { email: body.userEmail },
+    });
+
+    if (!user)
+      return NextResponse.json({ error: "Invalid user." }, { status: 400 });
   }
 
   const job = await prisma.jobPost.create({

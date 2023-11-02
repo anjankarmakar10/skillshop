@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import prisma from "@/prisma/client";
 import Link from "next/link";
 import { JobListingFullDialog } from "./JobListingFullDialog";
-import DeleteJobButton from "@/components/DeleteJobButton";
 
 const JobsListPage = async () => {
   const jobs: Job[] = await prisma.jobPost.findMany({});
@@ -26,10 +25,6 @@ const JobsListPage = async () => {
             job={job}
             footerBtns={
               <>
-                <DeleteJobButton job={job} />
-                <Link href={`/jobs/edit/${job.id}`}>
-                  <Button variant="outline">Edit</Button>
-                </Link>
                 <JobListingFullDialog {...job} />
               </>
             }

@@ -1,11 +1,9 @@
 "use client";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
@@ -22,8 +20,9 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { date } from "zod";
 
 const Navbar = () => {
   const { status, data: session } = useSession();
@@ -69,12 +68,21 @@ const Navbar = () => {
                       <User className="mr-2 h-4 w-4" />
                       <span>Profile</span>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        className="flex items-center w-full"
+                        href="/jobs/mylisting"
+                      >
+                        <List className="mr-2 h-4 w-4" />
+                        <span>My Listing</span>
+                      </Link>
+                    </DropdownMenuItem>
                   </DropdownMenuGroup>
 
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem asChild>
                     <Link
-                      className="flex items-center"
+                      className="flex items-center w-full"
                       href="/api/auth/signout"
                     >
                       <LogOut className="mr-2 h-4 w-4" />

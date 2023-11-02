@@ -62,7 +62,7 @@ const DeleteJobButton = ({ job }: { job: Job }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button disabled={isDeleting} variant="secondary">
+        <Button size="sm" disabled={isDeleting} variant="secondary">
           Delete
         </Button>
       </AlertDialogTrigger>

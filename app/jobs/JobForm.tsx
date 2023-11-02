@@ -24,6 +24,7 @@ import { z } from "zod";
 import { jobListingSchema } from "../validationsSchemas";
 import JobCard from "@/components/JobCard";
 import { JobListingFullDialog } from "./JobListingFullDialog";
+import { useSession } from "next-auth/react";
 
 export type JobFormData = z.infer<typeof jobListingSchema>;
 
@@ -45,6 +46,7 @@ const JobForm = ({ job }: Props) => {
   const jobListingValues = watch();
 
   const [error, setError] = useState("");
+  const { status, data: session } = useSession();
 
   const [isSubmitting, setSubmitting] = useState(false);
   const [preview, setPreview] = useState(false);
@@ -54,9 +56,14 @@ const JobForm = ({ job }: Props) => {
     try {
       setSubmitting(true);
       if (job) {
-        await axios.patch("/api/jobs/" + job.id, data);
+        await axios.patch("/api/jobs/" + job.id, {
+          ...data,
+        });
       } else {
-        await axios.post("/api/jobs", data);
+        await axios.post("/api/jobs", {
+          ...data,
+          userEmail: session?.user?.email,
+        });
       }
 
       router.push("/jobs");

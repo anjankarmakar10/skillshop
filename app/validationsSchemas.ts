@@ -32,6 +32,7 @@ export const jobListingSchema = z.object({
   description: z.string().optional(),
   experience: z.string().optional(),
   type: z.string().optional(),
+  userEmail: z.string().optional(),
 });
 
 export const patchJobSchema = z.object({

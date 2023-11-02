@@ -30,7 +30,7 @@ export function JobListingFullDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>View More</Button>
+        <Button size="sm">View More</Button>
       </DialogTrigger>
       <DialogContent className="max-h-[calc(100vh-2rem)] flex flex-col max-w-3xl w-[calc(100vw-2rem)]">
         <DialogHeader>
