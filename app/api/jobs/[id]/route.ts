@@ -29,3 +29,19 @@ export async function PATCH(
 
   return NextResponse.json(updatedJob);
 }
+
+export async function DELETE(
+  response: NextResponse,
+  { params }: { params: { id: string } }
+) {
+  const job = await prisma.jobPost.findUnique({
+    where: { id: params.id },
+  });
+
+  if (!job) return NextResponse.json({ error: "Invalid job" }, { status: 404 });
+
+  const result = await prisma.jobPost.delete({
+    where: { id: params.id },
+  });
+  return NextResponse.json(result, { status: 201 });
+}
