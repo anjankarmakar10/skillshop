@@ -222,7 +222,7 @@ const JobForm = ({ job }: Props) => {
       <div className="max-w-md">
         {preview && (
           <JobCard
-            job={jobListingValues}
+            job={job || jobListingValues}
             footerBtns={
               <>
                 <JobListingFullDialog {...jobListingValues} />
