@@ -25,6 +25,9 @@ const JobsListPage = async () => {
             job={job}
             footerBtns={
               <>
+                <Link href={`/jobs/edit/${job.id}`}>
+                  <Button variant="outline">Edit</Button>
+                </Link>
                 <JobListingFullDialog {...job} />
               </>
             }

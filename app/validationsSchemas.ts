@@ -33,3 +33,20 @@ export const jobListingSchema = z.object({
   experience: z.string().optional(),
   type: z.string().optional(),
 });
+
+export const patchJobSchema = z.object({
+  title: z.string().min(1, "Title is required."),
+  companyName: z.string().min(1, "Company name is required."),
+  location: z.string().min(1, "Location is required."),
+  applyUrl: z.string().url().optional(),
+  salary: z.number().int().positive(),
+  shortDescription: z
+    .string()
+    .min(1, "Short description is required.")
+    .max(200),
+  description: z.string().optional(),
+  experience: z.string().optional(),
+  type: z.string().optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+});

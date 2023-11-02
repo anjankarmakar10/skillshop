@@ -27,19 +27,11 @@ import { JobListingFullDialog } from "./JobListingFullDialog";
 
 export type JobFormData = z.infer<typeof jobListingSchema>;
 
-const DEFAULT_VALUES: JobFormData = {
-  applyUrl: "",
-  companyName: "",
-  description: "",
-  experience: "MID_LEVEL",
-  location: "",
-  salary: NaN,
-  shortDescription: "",
-  title: "",
-  type: "FULL_TIME",
-};
+interface Props {
+  job?: Job;
+}
 
-const JobForm = () => {
+const JobForm = ({ job }: Props) => {
   const {
     register,
     handleSubmit,
@@ -48,7 +40,6 @@ const JobForm = () => {
     formState: { errors },
   } = useForm<JobFormData>({
     resolver: zodResolver(jobListingSchema),
-    defaultValues: DEFAULT_VALUES,
   });
 
   const jobListingValues = watch();
@@ -62,7 +53,12 @@ const JobForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      await axios.post("/api/jobs", data);
+      if (job) {
+        await axios.patch("/api/jobs/" + job.id, data);
+      } else {
+        await axios.post("/api/jobs", data);
+      }
+
       router.push("/jobs");
       router.refresh();
     } catch (error) {
@@ -84,22 +80,38 @@ const JobForm = () => {
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ">
           <div className="col-span-full md:col-span-1 flex flex-col gap-2">
             <Label>Title</Label>
-            <Input {...register("title")} type="text" />
+            <Input
+              defaultValue={job?.title}
+              {...register("title")}
+              type="text"
+            />
             <ErrorMessage>{errors.title?.message}</ErrorMessage>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Company Name</Label>
-            <Input {...register("companyName")} type="text" />
+            <Input
+              defaultValue={job?.companyName}
+              {...register("companyName")}
+              type="text"
+            />
             <ErrorMessage>{errors.companyName?.message}</ErrorMessage>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Location</Label>
-            <Input {...register("location")} type="text" />
+            <Input
+              defaultValue={job?.location}
+              {...register("location")}
+              type="text"
+            />
             <ErrorMessage>{errors.location?.message}</ErrorMessage>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Application URL</Label>
-            <Input {...register("applyUrl")} type="url" />
+            <Input
+              defaultValue={job?.applyUrl}
+              {...register("applyUrl")}
+              type="url"
+            />
             <ErrorMessage>{errors.applyUrl?.message}</ErrorMessage>
           </div>
           <div className="flex flex-col gap-2">
@@ -109,7 +121,7 @@ const JobForm = () => {
               name="type"
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Select
-                  defaultValue="FULL_TIME"
+                  defaultValue={job?.type || "FULL_TIME"}
                   value={value}
                   onValueChange={onChange}
                 >
@@ -135,7 +147,7 @@ const JobForm = () => {
               name="experience"
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Select
-                  defaultValue="MID_LEVEL"
+                  defaultValue={job?.experience || "MID_LEVEL"}
                   value={value}
                   onValueChange={onChange}
                 >
@@ -156,6 +168,7 @@ const JobForm = () => {
           <div className="flex flex-col gap-2">
             <Label>Salary</Label>
             <Input
+              defaultValue={job?.salary}
               {...register("salary", { valueAsNumber: true })}
               type="number"
             />
@@ -165,13 +178,21 @@ const JobForm = () => {
 
           <div className="md:col-span-2 col-span-full flex flex-col gap-2">
             <Label>Short Description</Label>
-            <Textarea {...register("shortDescription")} rows={5} />
+            <Textarea
+              defaultValue={job?.shortDescription}
+              {...register("shortDescription")}
+              rows={5}
+            />
             <p className="text-sm text-muted-foreground">Max 200 characters</p>
             <ErrorMessage>{errors.shortDescription?.message}</ErrorMessage>
           </div>
           <div className="col-span-full flex flex-col gap-2">
             <Label>Full Description</Label>
-            <Textarea {...register("description")} rows={8} />
+            <Textarea
+              defaultValue={job?.description}
+              {...register("description")}
+              rows={8}
+            />
             <p className="text-sm text-muted-foreground">
               Supports full Markdown
             </p>
@@ -186,7 +207,7 @@ const JobForm = () => {
             type="submit"
           >
             {isSubmitting && <Spinner />}
-            Submit Job
+            {job ? "Update Job" : "Submit Job"}
           </Button>
 
           <Button
