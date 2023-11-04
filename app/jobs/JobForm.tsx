@@ -60,15 +60,16 @@ const JobForm = ({ job }: Props) => {
         await axios.patch("/api/jobs/" + job.id, {
           ...data,
         });
+        router.push("/jobs/mylisting");
+        router.refresh();
       } else {
         await axios.post("/api/jobs", {
           ...data,
           userEmail: session?.user?.email,
         });
+        router.push("/jobs");
+        router.refresh();
       }
-
-      router.push("/jobs/mylisting");
-      router.refresh();
     } catch (error) {
       console.log(error);
       setSubmitting(false);
