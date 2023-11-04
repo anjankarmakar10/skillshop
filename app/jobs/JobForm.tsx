@@ -52,6 +52,7 @@ const JobForm = ({ job }: Props) => {
   const [preview, setPreview] = useState(false);
 
   const router = useRouter();
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
@@ -66,7 +67,7 @@ const JobForm = ({ job }: Props) => {
         });
       }
 
-      router.push("/jobs");
+      router.push("/jobs/mylisting");
       router.refresh();
     } catch (error) {
       console.log(error);
