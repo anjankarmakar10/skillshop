@@ -1,19 +1,49 @@
-"use client";
-import prisma from "@/prisma/client";
+import JobCard from "@/components/JobCard";
+import JobListingGrid from "@/components/JobListingGrid";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { JobListingFullDialog } from "../JobListingFullDialog";
+import DeleteJobButton from "@/components/DeleteJobButton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
+import authOptions from "@/app/auth/authOptions";
 
-const MyListingPage = () => {
-  const { status, data: session } = useSession();
+const MyListingPage = async () => {
+  const session = await getServerSession(authOptions);
 
-  const { data } = useQuery({
-    queryKey: ["mylisting"],
-    queryFn: () => axios.get("/api/jobs/mylisting").then((res) => res.data),
+  if (!session) return null;
+
+  const jobs = await prisma.jobPost.findMany({
+    where: { userEmail: session?.user?.email },
   });
 
-  console.log(data);
-
-  return <div>MyListingPage</div>;
+  return (
+    <section>
+      <header className="flex items-center justify-between">
+        <h1 className="font-bold text-2xl md:text-4xl ">My Listing</h1>
+      </header>
+      <JobListingGrid>
+        {jobs?.map((job) => (
+          <JobCard
+            key={job.id}
+            job={job}
+            footerBtns={
+              <>
+                <DeleteJobButton job={job} />
+                <Link href={`/jobs/edit/${job.id}`}>
+                  <Button variant="outline" size="sm">
+                    Edit
+                  </Button>
+                </Link>
+                <JobListingFullDialog {...job} />
+              </>
+            }
+          />
+        ))}
+      </JobListingGrid>
+    </section>
+  );
 };
 export default MyListingPage;

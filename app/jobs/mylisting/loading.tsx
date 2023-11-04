@@ -1,14 +1,11 @@
 import JobCardSkleton from "@/components/JobCardSkleton";
 import JobListingGrid from "@/components/JobListingGrid";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const loading = () => {
   return (
     <section>
       <header className="flex items-center justify-between">
-        <h1 className="font-bold text-2xl md:text-4xl ">Job Listing</h1>
-
-        <Skeleton className="h-9 w-[120px]" />
+        <h1 className="font-bold text-2xl md:text-4xl ">My Listing</h1>
       </header>
       <JobListingGrid>
         {Array(8)

@@ -21,8 +21,6 @@ const DeleteJobButton = ({ job }: { job: Job }) => {
   const router = useRouter();
   const [isDeleting, setDeleting] = useState(false);
 
-  if (!job) return null;
-
   const handleUndo = async () => {
     try {
       await axios.post("/api/jobs", job);
@@ -40,7 +38,6 @@ const DeleteJobButton = ({ job }: { job: Job }) => {
       setDeleting(true);
       await axios.delete("/api/jobs/" + job.id);
       router.refresh();
-
       toast({
         title: "Sucessfully Deleted",
         action: (

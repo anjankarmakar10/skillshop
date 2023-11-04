@@ -9,7 +9,6 @@ export const POST = async (request: NextRequest) => {
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
-  console.log(body);
 
   const validation = jobListingSchema.safeParse(body);
   if (!validation.success) {
