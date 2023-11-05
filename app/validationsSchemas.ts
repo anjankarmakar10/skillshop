@@ -51,3 +51,8 @@ export const patchJobSchema = z.object({
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
 });
+
+export const favoriteListingSchema = z.object({
+  jobId: z.string().min(1, "Job id is required"),
+  userEmail: z.string().min(1, "user emaill is required"),
+});

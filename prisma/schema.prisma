@@ -23,8 +23,13 @@ model JobPost {
   updatedAt        DateTime   @updatedAt
   type             Type       @default(FULL_TIME)
   experience       Experience @default(MID_LEVEL)
-  userEmail        String?    
- 
+  userEmail        String?
+}
+
+model Favorite {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  jobId     String @db.ObjectId
+  userEmail String
 }
 
 enum Type {
@@ -73,7 +78,6 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-
 }
 
 model VerificationToken {
