@@ -12,3 +12,9 @@ type Job = {
   type?: string | undefined;
   experience?: string | undefined;
 };
+
+type Favorite = {
+  id?: string;
+  jobId: string;
+  userEmail?: string;
+};

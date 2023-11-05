@@ -1,4 +1,3 @@
-"use client";
 import {
   Card,
   CardContent,
@@ -9,11 +8,9 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/utils/formatters";
-import { Banknote, CalendarDays, GraduationCap, Heart } from "lucide-react";
+import { Banknote, CalendarDays, GraduationCap } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { ReactNode, useState } from "react";
-import axios from "axios";
-import { useSession } from "next-auth/react";
+import { ReactNode } from "react";
 
 interface Props {
   footerBtns?: ReactNode;
@@ -21,7 +18,7 @@ interface Props {
   job: Job;
 }
 
-const JobCard = ({
+const JobCard = async ({
   job: {
     id,
     title,
@@ -35,28 +32,9 @@ const JobCard = ({
   footerBtns,
   className,
 }: Props) => {
-  const [isFavorite, setFavorite] = useState(false);
-  const { status, data: session } = useSession();
-  const handleFavorite = async () => {
-    try {
-      await axios.post("/api/favorites", {
-        jobId: id,
-        userEmail: session?.user?.email,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <Card className={cn("h-full flex flex-col", className)}>
-      <CardHeader className="relative">
-        <Heart
-          onClick={handleFavorite}
-          fill={`${isFavorite ? "white" : ""}`}
-          className={`absolute top-4 right-4 cursor-pointer `}
-        />
-
+      <CardHeader>
         <div className="flex gap-4 justify-between">
           <div>
             <CardTitle>{title}</CardTitle>
