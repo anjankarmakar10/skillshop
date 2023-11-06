@@ -1,7 +1,5 @@
 import JobCard from "@/components/JobCard";
 import JobListingGrid from "@/components/JobListingGrid";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { JobListingFullDialog } from "../JobListingFullDialog";
 import DeleteJobButton from "@/components/DeleteJobButton";
 import { Button } from "@/components/ui/button";
@@ -29,6 +27,7 @@ const MyListingPage = async () => {
           </Button>
         </Link>
       </header>
+
       <JobListingGrid>
         {jobs?.map((job) => (
           <JobCard

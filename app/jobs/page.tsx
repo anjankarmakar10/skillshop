@@ -4,6 +4,7 @@ import prisma from "@/prisma/client";
 import Link from "next/link";
 import { JobListingFullDialog } from "./JobListingFullDialog";
 import JobListingGrid from "@/components/JobListingGrid";
+import Filters from "../Filters";
 
 const JobsListPage = async () => {
   const jobs: Job[] = await prisma.jobPost.findMany({});
@@ -19,6 +20,7 @@ const JobsListPage = async () => {
           </Button>
         </Link>
       </header>
+      <Filters />
       <JobListingGrid>
         {jobs.map((job) => (
           <JobCard
