@@ -23,6 +23,11 @@ const MyListingPage = async () => {
     <section>
       <header className="flex items-center justify-between">
         <h1 className="font-bold text-2xl md:text-4xl ">My Listing</h1>
+        <Link href="/jobs/new">
+          <Button size="sm" variant="outline">
+            Create Listing
+          </Button>
+        </Link>
       </header>
       <JobListingGrid>
         {jobs?.map((job) => (

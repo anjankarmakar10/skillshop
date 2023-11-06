@@ -6,6 +6,8 @@ const loading = () => {
     <section>
       <header className="flex items-center justify-between">
         <h1 className="font-bold text-2xl md:text-4xl ">My Listing</h1>
+
+        <Skeleton className="h-9 w-[120px]" />
       </header>
       <JobListingGrid>
         {Array(8)
