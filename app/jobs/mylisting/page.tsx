@@ -10,7 +10,6 @@ import authOptions from "@/app/auth/authOptions";
 
 const MyListingPage = async () => {
   const session = await getServerSession(authOptions);
-
   if (!session) return null;
 
   const jobs = await prisma.jobPost.findMany({
@@ -27,7 +26,6 @@ const MyListingPage = async () => {
           </Button>
         </Link>
       </header>
-
       <JobListingGrid>
         {jobs?.map((job) => (
           <JobCard

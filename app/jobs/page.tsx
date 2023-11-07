@@ -4,10 +4,34 @@ import prisma from "@/prisma/client";
 import Link from "next/link";
 import { JobListingFullDialog } from "./JobListingFullDialog";
 import JobListingGrid from "@/components/JobListingGrid";
-import Filters from "../Filters";
+import Filters, { FiltersQuery } from "../Filters";
+import { Experience, Type } from "@prisma/client";
 
-const JobsListPage = async () => {
-  const jobs: Job[] = await prisma.jobPost.findMany({});
+interface Props {
+  searchParams: FiltersQuery;
+}
+
+const JobsListPage = async ({ searchParams }: Props) => {
+  console.log(searchParams);
+
+  const types = Object.values(Type);
+
+  const type = types.includes(searchParams.type)
+    ? searchParams.type
+    : undefined;
+
+  const expriences = Object.values(Experience);
+
+  const exprience = expriences.includes(searchParams.exprience)
+    ? searchParams.exprience
+    : undefined;
+
+  const jobs: Job[] = await prisma.jobPost.findMany({
+    where: {
+      experience: exprience,
+      type: type,
+    },
+  });
 
   return (
     <section>

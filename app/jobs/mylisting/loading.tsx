@@ -1,5 +1,6 @@
 import JobCardSkleton from "@/components/JobCardSkleton";
 import JobListingGrid from "@/components/JobListingGrid";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const loading = () => {
   return (
